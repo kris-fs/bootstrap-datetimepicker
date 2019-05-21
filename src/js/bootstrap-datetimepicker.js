@@ -1,4 +1,4 @@
-/*! version : 4.17.45
+/*! version : 4.17.47
  =========================================================
  bootstrap-datetimejs
  https://github.com/Eonasdan/bootstrap-datetimepicker
@@ -234,7 +234,9 @@
             getTimePickerMainTemplate = function () {
                 var topRow = $('<tr>'),
                     middleRow = $('<tr>'),
-                    bottomRow = $('<tr>');
+                    bottomRow = $('<tr>'),
+                    timeHeading = $('<thead><tr>'),
+                    timepickertable;
 
                 if (isEnabled('h')) {
                     topRow.append($('<td>')
@@ -275,6 +277,11 @@
                             .append($('<span>').addClass(options.icons.down))));
                 }
 
+                if (!options.showUpDown) {
+                    topRow.attr('hidden', true);
+                    bottomRow.attr('hidden', true);
+                }
+
                 if (!use24Hours) {
                     topRow.append($('<td>').addClass('separator'));
                     middleRow.append($('<td>')
@@ -282,9 +289,17 @@
                     bottomRow.append($('<td>').addClass('separator'));
                 }
 
+                timepickertable = [topRow, middleRow, bottomRow];
+
+                if (options.showTimeHeading) {
+                    timeHeading.append('<td class="hs"></td></tr>')
+                        .append('<tr><th>Time</th></tr></thead>');
+                    timepickertable.unshift(timeHeading);
+                }
+
                 return $('<div>').addClass('timepicker-picker')
                     .append($('<table>').addClass('table-condensed')
-                        .append([topRow, middleRow, bottomRow]));
+                        .append(timepickertable));
             },
 
             getTimePickerTemplate = function () {
@@ -332,6 +347,8 @@
                     timeView = $('<div>').addClass('timepicker').append(getTimePickerTemplate()),
                     content = $('<ul>').addClass('list-unstyled'),
                     toolbar = $('<li>').addClass('picker-switch' + (options.collapse ? ' accordion-toggle' : '')).append(getToolbar());
+
+                template.attr('id', 'bootstap-datetimepicker');
 
                 if (options.inline) {
                     template.removeClass('dropdown-menu');
@@ -1428,10 +1445,7 @@
                 if (!unset) {
                     setValue(date);
                 }
-            },
-            //variables for setInlineView
-            setInlineViewCache,
-            elems;
+            };
 
         /********************************************************************************
          *
@@ -2164,6 +2178,32 @@
             return picker;
         };
 
+        picker.showUpDown = function (showUpDown) {
+            if (arguments.length === 0) {
+                return options.showUpDown;
+            }
+
+            if (typeof showUpDown !== 'boolean') {
+                throw new TypeError('showUpDown() expects a boolean parameter');
+            }
+
+            options.showUpDown = showUpDown;
+            return picker;
+        };
+
+        picker.showTimeHeading = function (showTimeHeading) {
+            if (arguments.length === 0) {
+                return options.showTimeHeading;
+            }
+
+            if (typeof showTimeHeading !== 'boolean') {
+                throw new TypeError('showTimeHeading() expects a boolean parameter');
+            }
+
+            options.showTimeHeading = showTimeHeading;
+            return picker;
+        };
+
         picker.keepInvalid = function (keepInvalid) {
             if (arguments.length === 0) {
                 return options.keepInvalid;
@@ -2330,29 +2370,6 @@
             return picker;
         };
 
-        /**
-         * Sets the view in inline mode
-         * @param {Takes string, 'datepicker', 'timepicker'} newDate
-         * @returns {picker instance}
-         */
-        picker.setInlineView = function (view) {
-            if (picker.options().inline) {
-                var cache = picker.setInlineView.cache;
-                if (view === 'datepicker') {
-                    //show the date picker
-                    cache.firstLi.collapse('show');
-                    cache.lastLi.collapse('hide');
-                    cache.span.removeClass('glyphicon-calendar').addClass('glyphicon-time');
-                } else if (view === 'timepicker') {
-                    //show the time picker
-                    cache.firstLi.collapse('hide');
-                    cache.lastLi.collapse('show');
-                    cache.span.removeClass('glyphicon-time').addClass('glyphicon-calendar');
-                }
-            }
-            return picker;
-        };
-
         // initializing element and component attributes
         if (element.is('input')) {
             input = element;
@@ -2401,13 +2418,6 @@
         }
         if (options.inline) {
             show();
-            elems = $('li', widget);
-            setInlineViewCache = {
-                firstLi : elems.first(),
-                span: elems.first().next().find('span'),
-                lastLi : elems.last()
-            };
-            picker.setInlineView.cache = setInlineViewCache;
         }
         return picker;
     };
@@ -2493,15 +2503,15 @@
         disabledDates: false,
         enabledDates: false,
         icons: {
-            time: 'glyphicon glyphicon-time',
-            date: 'glyphicon glyphicon-calendar',
-            up: 'glyphicon glyphicon-chevron-up',
-            down: 'glyphicon glyphicon-chevron-down',
-            previous: 'glyphicon glyphicon-chevron-left',
-            next: 'glyphicon glyphicon-chevron-right',
-            today: 'glyphicon glyphicon-screenshot',
-            clear: 'glyphicon glyphicon-trash',
-            close: 'glyphicon glyphicon-remove'
+            time: 'fa fa-clock-o',
+            date: 'fa fa-calendar',
+            up: 'fa fa-arrow-up',
+            down: 'fa fa-arrow-down',
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-calendar-check-o',
+            clear: 'fa fa-delete',
+            close: 'fa fa-times'
         },
         tooltips: {
             today: 'Go to today',
@@ -2539,6 +2549,8 @@
         showTodayButton: false,
         showClear: false,
         showClose: false,
+        showUpDown: false,
+        showTimeHeading: true,
         widgetPositioning: {
             horizontal: 'auto',
             vertical: 'auto'

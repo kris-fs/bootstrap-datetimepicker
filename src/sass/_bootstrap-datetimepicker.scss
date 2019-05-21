@@ -107,7 +107,9 @@ $bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
     }
 
     .timepicker-hour, .timepicker-minute, .timepicker-second {
-        width: 54px;
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
         font-weight: bold;
         font-size: $bs-datetimepicker-timepicker-font-size;
         margin: 0;
@@ -115,6 +117,7 @@ $bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 
     button[data-action] {
         padding: 6px;
+        border-radius: 16px;
     }
 
     .btn[data-action="incrementHours"]::after {
@@ -237,10 +240,14 @@ $bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
             width: 54px;
 
             &.cw {
-                font-size: .8em;
+                font-size: 0.8em;
                 height: 20px;
                 line-height: 20px;
                 color: $bs-datetimepicker-alternate-color;
+            }
+
+            &.hs {
+                height: 36px;
             }
 
             &.day {
