@@ -26,15 +26,15 @@
 
         &.timepicker-sbs {
             @media (min-width: @screen-sm-min) {
-                width: 38em;
+                width: 28em;
             }
 
             @media (min-width: @screen-md-min) {
-                width: 38em;
+                width: 28em;
             }
 
             @media (min-width: @screen-lg-min) {
-                width: 38em;
+                width: 28em;
             }
         }
 
@@ -107,8 +107,14 @@
         box-shadow: none;
     }
 
+    .row {
+        margin: 0px;
+    }
+
     .timepicker-hour, .timepicker-minute, .timepicker-second {
-        width: 54px;
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
         font-weight: bold;
         font-size: @bs-datetimepicker-timepicker-font-size;
         margin: 0;
@@ -116,6 +122,7 @@
 
     button[data-action] {
         padding: 6px;
+        border-radius: 16px;
     }
 
     .btn[data-action="incrementHours"]::after {
@@ -242,6 +249,10 @@
                 height: 20px;
                 line-height: 20px;
                 color: @bs-datetimepicker-alternate-color;
+            }
+
+            &.hs {
+                height: 34px;
             }
 
             &.day {
