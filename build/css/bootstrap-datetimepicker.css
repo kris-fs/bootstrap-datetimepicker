@@ -239,6 +239,9 @@
 .bootstrap-datetimepicker-widget table th.picker-switch {
   width: 145px;
 }
+.bootstrap-datetimepicker-widget table th.time-header {
+  padding-top: 34px;
+}
 .bootstrap-datetimepicker-widget table th.disabled,
 .bootstrap-datetimepicker-widget table th.disabled:hover {
   background: none;
@@ -285,7 +288,7 @@
   color: #777777;
 }
 .bootstrap-datetimepicker-widget table td.hs {
-  height: 34px;
+  height: 30px;
 }
 .bootstrap-datetimepicker-widget table td.day {
   height: 20px;
